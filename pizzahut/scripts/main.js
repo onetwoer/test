@@ -1,0 +1,1 @@
+!function(){$(document).on("click",".tab-navs li a",function(){var a=$(this).closest("li").addClass("active"),b=a.find("a").attr("data-id");a.closest(".tab-navs").find("li").not(a).removeClass("active");var c=$(".tab-contents #"+b).addClass("active");$(".tab-contents .tab-pane").not(c).removeClass("active")}),$(".animation p").addClass("an")}();
