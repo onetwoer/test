@@ -1,0 +1,1 @@
+"use strict";var require={baseUrl:"scripts/",paths:{jquery:"vendor/jquery",bootstrap:"vendor/bootstrap/bootstrap",global:"global"},shim:{bootstrap:{deps:["jquery"]},global:{deps:["bootstrap"]}}};

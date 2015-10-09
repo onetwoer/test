@@ -1,0 +1,1 @@
+"use strict";define(["bootstrap"],function(){$(document).on("click",".slider-nav a",function(){var a=$(this).closest("li").addClass("active"),b=a.closest(".slider-nav").find("li");b.not(a).removeClass("active");var c=a.index(),d=b.map(function(a){return"slider-item-"+a}).get().join(" "),e=a.closest(".slider");e.find(".slider-cnt").removeClass(d).addClass("slider-item-"+c)})});
