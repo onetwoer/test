@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en" class="role">
+<head>
+    <meta charset="UTF-8">
+    <title>角色</title>
+    <meta name="description" content="">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+        <meta name="misapplication-tap-highlight" content="no"/>
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="MobileOptimized" content="320"/>
+
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="styles/global.css">
+
+</head>
+<body>
+    <div class="mui-content">
+        <ul class="mui-table-view"></ul>
+
+        <a href="javascript:;" class="mui-btn mui-btn-block mui-btn-loading-more" data-ignore>
+            <span class="default-text">点击加载更多...</span>
+            <span class="loading-text"><i class="mui-icon mui-spinner"></i>正在加载中...</span>
+        </a>
+    </div>
+
+    <div class="fixed-action">
+        <a href="role-editor.html" class="mui-btn mui-btn-link mui-icon mui-icon-plusempty mui-btn-add"></a>
+    </div>
+    
+</body>
+
+<script type="text/tmpl" id="role-tmpl">
+    {{ if data && data.length > 0 }}    
+        {{ each data as item }}
+        <li class="mui-table-view-cell">
+            <a href="role-editor.html?roleId={{ item.id }}">{{ item.name }}</a>
+        </li>
+        {{ /each }}
+    {{ else }}
+        <li class="no-data"><span>没有数据</span></li>
+    {{ /if }}
+</script>
+
+<script src="scripts/require-config.js"></script>
+<script src="scripts/vendor/require.js"></script>
+
+
+<script>
+
+    var pageNumber  = 1;
+    var $list = null;
+    var $loadingMore = null;
+
+    require(['global', 'api'], function()
+    {
+        $list = $('.mui-content .mui-table-view');
+        $loadingMore = $('.mui-btn-loading-more');
+
+        popup.showToast(
+        {
+            message: '正在获取角色信息...',
+            type : 'loading'
+        });
+
+        $.when( 
+            $.ajax(
+            {
+                url: api.getRole,
+                dataType: 'json',
+                timeout: ajaxTimeout
+            })
+        ).done(function(data)
+        {
+            popup.hideToast();
+            
+            if(!data.status)
+            {
+                popup.showToast('获取角色信息失败。', 'error');
+                return;
+            }
+            
+            $list.html( template('role-tmpl', { data: data.data }) );
+
+            $loadingMore.toggleClass('show', (data.total > $list.find('li').size() ));
+            
+        }).fail(function(fail)
+        {
+            popup.showToast('获取职务信息失败。', 'error');
+        });
+
+        // 加载更多评论
+        mui('body').on('tap', '.mui-content .mui-btn-loading-more', function()
+        {
+            ++pageNumber;
+
+            $loadingMore.toggleClass('show-loading', true);
+
+            $.when( 
+                $.ajax(
+                {
+                    url: api.getRole,
+                    dataType: 'json',
+                    timeout: ajaxTimeout
+                })
+            ).done(function(data)
+            {
+                $loadingMore.toggleClass('show-loading', false);
+                
+                if(!data.status)
+                {
+                    popup.showToast('获取角色信息失败。', 'error');
+                    return;
+                }
+                
+                $list.append( template('role-tmpl', { data: data.data }) );
+
+                $loadingMore.toggleClass('show', (data.total > $list.find('li').size() ));
+                
+            }).fail(function(fail)
+            {
+                popup.showToast('获取职务信息失败。', 'error');
+            });
+
+        });
+
+
+    });
+
+</script>
+</html>
