@@ -1,0 +1,1 @@
+!function(a){a.fn.pull=function(b){var c=!!("ontouchstart"in window),d={};return d=a.extend(d,b),this.each(function(){if(!c)return void console.log("The current environment doesn't support touch events.");a(this)})}}($);

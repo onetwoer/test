@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" class="index">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            XY
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+        <meta name="misapplication-tap-highlight" content="no"/>
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="MobileOptimized" content="320"/>
+
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="styles/global.css">
+
+    </head>
+    
+    <body>
+        
+        <div class="mui-content">
+            <ul class="mui-table-view">
+                <li class="mui-table-view-cell">
+                    <a href="project.html">项目管理</a>
+                </li>
+                <li class="mui-table-view-cell">
+                    <a href="role.html">角色管理</a>
+                </li>
+                <li class="mui-table-view-cell">
+                    <a href="job.html">职务管理</a>
+                </li>
+                <li class="mui-table-view-cell">
+                    <a href="dept.html">部门管理</a>
+                </li>
+            </ul>
+        </div>
+
+        
+        <!-- <div class="pull-container">
+            <div class="pull-content">
+                xxxxxx
+            </div>
+        </div>
+ -->
+    </body>
+        
+    <script src="scripts/require-config.js"></script>
+<script src="scripts/vendor/require.js"></script>
+
+    
+    <script>
+
+        require(['global'], function()
+        {
+           
+
+            return;
+
+            var $pullContainer = $('.pull-container');
+            var $pullConent = $pullContainer.find('.pull-content');
+
+            var _onStart = false;
+            var _sy, _cy;
+            $pullContainer[0].addEventListener('touchstart', function(e)
+            {
+                if(_onStart)
+                {
+                    return;
+                }
+                _onStart = true;
+                _sy = e.touches[0].pageY;
+            });
+
+            $pullContainer[0].addEventListener('touchmove', function(e)
+            {
+                if(!_onStart)
+                {
+                    return;
+                }
+                _cy = e.touches[0].pageY;
+
+                if(_cy - _sy >  50)
+                {
+                    $pullContainer.addClass('show-pull-refresh');
+                }
+                else
+                {
+                    $pullContainer.removeClass('show-pull-refresh');
+
+                    $pullConent.animate(
+                    {
+                        translateY: _cy - _sy + 'px'
+                    }, 500, 'ease-in-out');
+
+                }
+
+                // if(_sy - _cy  >  50)
+                // {
+                //     $pullContainer.addClass('show-pull-more');
+                // }
+                // else
+                // {
+                //     $pullContainer.removeClass('show-pull-more');
+                // }
+            });
+
+            $pullContainer[0].addEventListener('touchend', function()
+            {
+                _onStart = false;
+
+                $pullConent.animate(
+                {
+                    translateY: '0px'
+                }, 500, 'ease-in-out');
+            })
+        
+        });
+
+    </script>
+
+
+</html>

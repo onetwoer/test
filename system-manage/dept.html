@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" class="dept mobilebone">
+<head>
+    <meta charset="UTF-8">
+    <title>部门</title>
+    <meta name="description" content="">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+        <meta name="misapplication-tap-highlight" content="no"/>
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="MobileOptimized" content="320"/>
+
+        <link rel="shortcut icon" href="/favicon.ico">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="styles/global.css">
+
+</head>
+<body>
+
+    <div class="page dept-list" data-root="dept" data-callback="listCallback" data-fallback="listFallback">
+        <header class="mui-bar mui-bar-nav">
+            <ul class="title"></ul>
+        </header>
+        <div class="mui-content"></div>
+        <div class="fixed-action">
+            <a href="#dept-editor" class="mui-btn mui-btn-link mui-icon mui-icon-plusempty mui-btn-add" data-mode="add" ></a>
+            <a href="#dept-editor" class="mui-btn mui-btn-link mui-icon mui-icon-compose mui-btn-editor" data-mode="editor" ></a>
+        </div>
+    </div>
+
+    <div id="dept-editor" class="page out dept-editor" data-root="dept" data-callback="editorCallback" data-fallback="editorFallback">
+        <div class="mui-content">
+            <div class="mui-content-padded">
+                <form>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="selector-user" class="page out selector-user" data-root="selector" data-callback="userCallback" data-fallback="userFallback">
+        <div class="mui-content">
+            <div class="mui-indexed-list">
+                <div class="mui-indexed-list-search mui-input-row mui-search">
+                <input type="search" class="mui-input-clear mui-indexed-list-search-input" placeholder="搜索员工">
+            </div>
+            <div class="mui-indexed-list-bar">
+                <div class="list"></div>
+            </div>
+            <div class="mui-indexed-list-alert"></div>
+            <div class="mui-indexed-list-inner">
+                <div class="mui-indexed-list-empty-alert">没有数据</div>
+                <ul class="mui-table-view"></ul>
+            </div>
+            </div>
+        </div>
+
+        <a href="javascript:;" class="mui-btn mui-btn-link mui-icon mui-icon-checkmarkempty mui-btn-confirm hide"></a>
+
+    </div>
+
+    
+</body>
+
+<script type="text/tmpl" id="dept-tmpl">
+    <ul class="mui-table-view mui-table-view-dept">
+        {{ each data.dept as dept }}
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" class="mui-navigate-right" data-id="{{ dept.id }}" data-name="{{ dept.name }}"><i class="iconfont icon-dept"></i>{{ dept.name }}</a>
+        </li>
+        {{ /each }}
+    </ul>
+
+    <ul class="mui-table-view ">
+        {{ each data.member as member }}
+        <li class="mui-table-view-cell">
+            <a href="javascript:;" ><i class="iconfont icon-people"></i>{{ member.name }}</a>
+        </li>
+        {{ /each }}
+    </ul>
+</script>
+
+<script type="text/tmpl" id="hd-tmpl">
+    <li>
+        <a href="javascript:;" data-id="{{ data.id }}">{{ data.name }}</a>
+    </li>
+</script>
+
+<script type="text/tmpl" id="dept-editor-tmpl">
+    <input type="hidden" name="id" value="{{ data.id }}">
+    <div class="mui-input-group">
+        <div class="mui-input-row">
+            <label>上级部门：</label>
+            <a href="javascript:;" class="mui-btn mui-btn-link" data-id="{{ data.topDept.id }}">{{ data.topDept.name }}</a>
+            <input type="hidden" name="topDeptId" value="{{ data.topDept.id }}">
+        </div>
+        <div class="mui-input-row">
+            <label>部门名称：</label>
+            <input type="text" name="name" placeholder="部门名称(必填)" value="{{ data.name }}">
+        </div>
+        <div class="mui-input-row">
+            <label>部门编号：</label>
+            <input type="text" name="code" placeholder="部门编号" value="{{ data.code }}">
+        </div>
+        <div class="mui-input-row selector-row">
+            <label>部门经理：</label>
+            <a href="#selector-user" class="mui-btn mui-btn-link" data-is-multiple="false" data-id="{{ data.manager.id }}">{{ data.manager.name }}</a>
+            <input type="hidden" name="managerId" value="{{ data.manager.id }}">
+        </div>
+        <div class="mui-input-row">
+            <label>部门描述：</label>
+            <textarea name="desc" placeholder="部门描述">{{ data.desc }}</textarea>
+        </div>
+        <div class="mui-input-row selector-row">
+            <label>部门成员：</label>
+            <a href="#selector-user" class="mui-btn mui-btn-link" data-is-multiple="true" data-id="{{ each data.member as member index}}{{ index > 0 ? ";" : "" }}{{ member.id }}{{ /each }}">
+                {{ each data.member as member index}}
+                    {{ index > 0 ? "、" : "" }}{{ member.name }}
+                {{ /each }}
+                </a>
+                <input type="hidden" name="memberId" value="{{ data.member.id }}">
+        </div>
+    </div>
+
+    <div class="mui-btn-group">
+        <a href="javascript:;" class="mui-btn mui-btn-primary mui-btn-block mui-btn-save ">保存</a>
+    </div>
+</script>
+
+<script type="text/tmpl" id="users-tmpl">
+    {{ each data as item }}
+        {{ if item.data.length > 0 }}
+        <li data-group="{{ item.letter }}" class="mui-table-view-divider mui-indexed-list-group">{{ item.letter }}</li>
+            {{ each item.data as user }}
+                <li data-value="{{ user.id }}" data-name="{{ user.name }}" data-tags="{{ user.letter }}" class="mui-table-view-cell mui-indexed-list-item mui-checkbox mui-left">
+                    <input type="checkbox"/>{{ user.name }}
+                </li>
+            {{ /each}}
+        {{ /if }}
+    {{ /each }}
+</script>
+
+<script type="text/tmpl" id="users-indexed-tmpl">
+    {{ each data as item }}
+        {{ if item.data.length > 0 }}
+        <a>{{ item.letter }}</a>
+        {{ /if }}
+    {{ /each }}
+</script>
+
+<script src="scripts/require-config.js"></script>
+<script src="scripts/vendor/require.js"></script>
+
+
+<script>
+
+    var pageNumber  = 1;
+    var $list = null;
+    var $hd = null;
+    var $deptEditor = null;
+
+    var _cdept = null;
+
+    require(['global', 'api'], function()
+    {
+        $list = $('.page.dept-list .mui-content');
+        $hd = $('.page.dept-list .title');
+        $deptEditor = $('.page.dept-editor');
+
+        popup.showToast(
+        {
+            message: '正在获取部门信息...',
+            type : 'loading'
+        });
+
+        $.when( 
+            $.ajax(
+            {
+                url: api.getDept,
+                data:
+                {
+                    id: 1
+                },
+                dataType: 'json',
+                timeout: ajaxTimeout
+            })
+        ).done(function(data)
+        {
+            popup.hideToast();
+            
+            if(!data.status)
+            {
+                popup.showToast(
+                {
+                    message: '获取部门信息失败。',
+                    type: 'error'
+                });
+                return;
+            }
+
+            _cdept = data.data;
+            
+            $list.html( template('dept-tmpl', { data: data.data }) );
+            $hd.html( template('hd-tmpl', { data: data.data }) );
+            
+        }).fail(function(fail)
+        {
+            popup.showToast(
+            {
+                message: '获取部门信息失败。',
+                type: 'error'
+            });
+        });
+
+
+        // save
+        $('.page.dept-editor').on('tap', '.mui-btn-save', function()
+        {
+            var _formData = $('.page.dept-editor form').serializeJSON();
+
+            var _error = [];
+
+            if($.trim(_formData.name).length === 0)
+            {
+                _error.push('请输入部门名称。');
+            }
+
+            if(_error.length > 0)
+            {
+                popup.showDialog(
+                {
+                    message: _error.join('<br>')
+                });
+                return;
+            }
+
+
+            $.when( 
+                $.ajax(
+                {
+                    type: "GET",
+                    url: api.saveDept,
+                    data: _formData,
+                    dataType: 'json',
+                    timeout: ajaxTimeout
+                })
+            ).done(function(data)
+            {
+                if(!data.status)
+                {
+                    popup.showToast(
+                    {
+                        message: '保存部门失败。',
+                        type: 'error'
+                    });
+                    return;
+                }
+
+                popup.showToast(
+                {
+                    message: '保存成功。',
+                    callback: function()
+                    {
+                        editorDeptCallback(_formData);
+                        history.back();
+                    }
+                });
+                
+            }).fail(function(fail)
+            {
+                popup.showToast(
+                {
+                    message: '保存部门失败。',
+                    type: 'error'
+                });
+            });
+        });
+        
+        // dept click
+        $('.page.dept-list').on('tap', '.mui-table-view-dept a', function()
+        {
+            var $this = $(this);
+            var _id = $this.attr('data-id');
+            var _name = $this.attr('data-name');
+
+            if($hd.find('a[data-id="' + _id + '"]').size() > 0 )
+            {
+                return;
+            }
+            
+            var _html = $hd.append( template('hd-tmpl', { data: { id: _id, name: _name } }) );
+
+            loadingDept(_id);
+        });
+
+        // dept nav click
+        $('.page.dept-list').on('tap', '.mui-bar-nav .title a', function()
+        {
+            var $this = $(this);
+            var $dept = $this.closest('li');
+            var $title = $this.closest('.title');
+            var _index = $dept.index();
+            var _id = $this.attr('data-id');
+
+            $title.find('li').filter(function(index)
+            {
+                return index > _index;
+            }).remove();    
+
+            loadingDept(_id);
+        });
+    });
+
+
+    var dept = 
+    {
+        listCallback: function()
+        {
+            $('.fixed-action').removeClass('hide');
+        },
+        listFallback: function()
+        {
+            $('.fixed-action').addClass('hide');  
+        },
+        editorCallback: function(pageInto, pageOut, options)
+        {
+            var $target = $(options.target);
+            var _mode = $target.attr('data-mode');
+            dept.mode = _mode;
+
+            if(!$deptEditor || !_mode)
+            {
+                return;
+            }
+
+            var _data = 
+            {
+                topDept: 
+                {
+                    id: _cdept.id,
+                    name: _cdept.name
+                },
+                manager: {},
+                dept: [],
+                member: []
+            };
+
+            if(_mode === 'editor')
+            {
+                _data = _cdept;
+            }
+
+            $deptEditor.find('form').html( template('dept-editor-tmpl', { data: _data }) );
+
+        },
+        editorFallback: function(pageInto, pageOut, options)
+        {
+
+        }
+    };
+
+
+    function selectorUserCallback(selector)
+    {
+        var $list = $('.page.selector-user .mui-indexed-list');
+        var $checked = $list.find('.mui-checkbox input:checked')
+        var _ids = $checked.map(function(){ return $(this).closest('li').attr('data-value') }).get().join(',');
+        var _names = $checked.map(function(){ return $(this).closest('li').attr('data-name') }).get().join('、');
+
+        selector.target.text( _names );
+        selector.target.next('input[type="hidden"]').val( _ids );
+        
+        history.back()
+    }
+
+    // callback
+    function editorDeptCallback()
+    {
+        // refresh data
+
+        loadingDept(_cdept.id);
+    }
+
+    function loadingDept(id)
+    {
+        popup.showToast(
+        {
+            message: '正在加载部门信息...',
+            type : 'loading'
+        });
+
+        $.when( 
+            $.ajax(
+            {
+                url: api.getDept,
+                data:
+                {
+                    id: id
+                },
+                dataType: 'json',
+                timeout: ajaxTimeout
+            })
+        ).done(function(data)
+        {
+            popup.hideToast();
+            
+            if(!data.status)
+            {
+                popup.showToast(
+                {
+                    message: '加载部门信息失败。',
+                    type: 'error'
+                });
+                return;
+            }
+
+            _cdept = data.data;
+
+            //test
+
+            data.data.dept = [];
+
+            if(id == 0)
+            {
+                data.data.dept = 
+                [
+                    {
+                        "id": 1,
+                        "name": "产品部"
+                    },
+                    {
+                        "id": 2,
+                        "name": "工程一部"
+                    },
+                    {
+                        "id": 3,
+                        "name": "工程二部"
+                    },
+                    {
+                        "id": 4,
+                        "name": "工程三部"
+                    },
+                    {
+                        "id": 5,
+                        "name": "工程四部"
+                    }
+                ];
+            }
+            else if(id < 6)
+            {
+                data.data.dept = 
+                [
+                    {
+                        "id": 6,
+                        "name": "Web部"
+                    },
+                    {
+                        "id": 7,
+                        "name": "Java部"
+                    },
+                    {
+                        "id": 8,
+                        "name": "运维部"
+                    },              
+                ];
+            }
+            else if(id < 9)
+            {
+                data.data.dept = 
+                [
+                    {
+                        "id": 9,
+                        "name": "测试部门1"
+                    },
+                    {
+                        "id": 10,
+                        "name": "测试部门2"
+                    },
+                    {
+                        "id": 11,
+                        "name": "测试部门3"
+                    },              
+                ];
+            }
+
+            $('.page.dept-list .title').find('a[data-id="' + dept.id + '"]').html(_cdept.name);
+            
+            $list.html( template('dept-tmpl', { data: data.data }) );
+            
+        }).fail(function(fail)
+        {
+            popup.showToast(
+            {
+                message: '加载部门信息失败。',
+                type: 'error'
+            });
+        });
+    }
+
+
+
+</script>
+</html>
