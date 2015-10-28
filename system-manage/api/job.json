@@ -1,0 +1,23 @@
+{
+    "status" : true,
+    "error" : "",
+    "total" : 100,
+    "data" : 
+    [
+        {
+            "id" : 1,
+            "name": "Java 工程师",
+            "desc": ""
+        },
+        {
+            "id" : 2,
+            "name": "Java 高级工程师",
+            "desc": ""
+        },
+        {
+            "id" : 3,
+            "name": "前端工程师",
+            "desc": ""
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "status": true,
+    "data": 
+    [
+        {
+            "letter": "A",
+            "data":
+            [
+                {
+                    "id": 1,
+                    "name": "张三",
+                    "letter": "zhangsan"
+                },
+                {
+                    "id": 2,
+                    "name": "李四",
+                    "letter": "lisi"
+                }
+            ]
+        },
+        {
+            "letter": "B",
+            "data":
+            [
+                {
+                    "id": 3,
+                    "name": "王五",
+                    "letter": "wangsu"
+                },
+                {
+                    "id": 4,
+                    "name": "马六",
+                    "letter": "maliu"
+                }
+            ]
+        }
+    ]
+}

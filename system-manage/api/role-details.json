@@ -1,0 +1,10 @@
+{
+    "status" : true,
+    "error" : "",
+    "data" : 
+    {
+        "id" : 1,
+        "name": "系统管理员",
+        "desc": ""
+    }
+}

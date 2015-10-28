@@ -1,0 +1,26 @@
+{
+    "status" : true,
+    "error" : "",
+    "total" : 100,
+    "data" : 
+    [
+        {
+            "id" : 1,
+            "code": 1,
+            "name": "理财产品推广",
+            "desc": ""
+        },
+        {
+            "id" : 2,
+            "code": 2,
+            "name": "项目1号",
+            "desc": ""
+        },
+        {
+            "id" : 3,
+            "code": 3,
+            "name": "开发",
+            "desc": ""
+        }
+    ]
+}
