@@ -15,155 +15,170 @@
         <h2>
             今日任务
         </h2>
-        <ul class="task-list unfinished">
-            <li>
-                <span class="checkbox"></span>
-                <cite>任务2...</cite>
-                <dl class="gold-list"></dl>
-            </li>
-            <li>
-                <span class="checkbox"></span>
-                <cite>任务3...</cite>
-                <dl class="gold-list"></dl>
-            </li>
-            <li>
-                <span class="checkbox"></span>
-                <cite>任务4...</cite>
-                <dl class="gold-list"></dl>
-            </li>
-            <li>
-                <span class="checkbox"></span>
-                <cite>任务5...</cite>
-                <dl class="gold-list"></dl>
-            </li>
-        </ul>
+        <ul class="task-list unfinished"></ul>
 
         <h2>
-            <i class="iconfont-today icon-exp-list"></i>
             可获得金币
         </h2>
         
         <ul class="gold-grid">
             <li title="6">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="7">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="8">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="9">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="10">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="11">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="12">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="13">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="14">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="15">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="16">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="17">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>               
             <li title="18">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="19">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="20">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li>
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li title="21">
-                <i class="iconfont-today icon-gold"></i>
+                <i class="icon-gold"></i>
             </li>
             <li></li>
         </ul>
 
         <h2>
-            <i class="iconfont-today icon-task-finished"></i>
             已完成任务
         </h2>
-        <ul class="task-list finished">
-            <li class="has-gold">
-                <span class="checkbox checked"></span>
-                <cite>任务1...</cite>
-                <dl class="gold-list">
-                    <dd>
-                        <i class="iconfont-today icon-gold"></i>
-                    </dd>
-                    <dd>
-                        <i class="iconfont-today icon-gold"></i>
-                    </dd>
-                    <dd>
-                        <i class="iconfont-today icon-gold"></i>
-                    </dd>
-                </dl>
-            </li>
-        </ul>
+        <ul class="task-list finished"></ul>
     </div>
 </body>
+
+<script type="text/tmpl" id="task-tmpl">
+    {{ if data && data.length > 0 }}    
+        {{ each data as item index }}
+        <li data-id="{{ item.id }}">
+            <span class="checkbox {{ status == 'Completed' ? 'checked' : '' }}"></span>
+            <cite>{{ item.name }}</cite>
+            <span class="gold" data-count="{{ +index + 1 }}">
+                <i class="icon-gold">{{ +index + 1 }}</i>
+            </span>
+        </li>
+        {{ /each }}
+    {{ else }}
+        <li class="no-data"></li>
+    {{ /if }}
+</script>
+
+<script>
+    var task = 
+    [
+        {
+            "id": 1,
+            "name": "任务1"
+        },
+        {
+            "id": 2,
+            "name": "任务2"
+        },
+        {
+            "id": 3,
+            "name": "任务3"
+        },
+        {
+            "id": 4,
+            "name": "任务4"
+        },
+        {
+            "id": 5,
+            "name": "任务5"
+        }
+    ];
+
+    var taskCompleted = 
+    [
+        {
+            "id": 6,
+            "name": "任务6"
+        }
+    ];
+</script>
+
 <script src="scripts/vendor/zepto-all.js"></script>
+<script src="scripts/vendor/template.js"></script>
 <script src="scripts/vendor/touch-dnd.js"></script>
 <script src="scripts/today.js"></script>
+
+
 </html>
