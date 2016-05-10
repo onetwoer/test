@@ -167,7 +167,7 @@
 
                 return;
             }
-            $cite.html( _citeVal + '%' );
+            $cite.html( _citeVal );
 
         }, 20);
     }
