@@ -1,7 +1,7 @@
 (function()
 {   
     $('.page-3,.page-4,.page-5,.page-6,.page-7').show();
-    
+
     $('.wp-inner').fullpage(
     {
         css3: true,
@@ -102,7 +102,7 @@
 
                 return;
             }
-            $cite.html( _citeVal + '%' );
+            $cite.html( _citeVal );
 
         }, 30);
     }
