@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title ng-bind="pageTitle"></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/>
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="styles/travel-notes.css?@@vv">
+</head>
+<body ng-app="travel-notes">
+    <div ng-controller="travel-notes"  class="travel-notes-container">
+        
+        <div class="notes-actions">
+            <div class="inner-container">
+                <div class="status">
+                    <label>游记完成度</label>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" aria-valuenow="60" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+                        </div>
+                    </div>
+                    <span class="no">60%</span>
+                </div>
+                <div class="actions">
+                    <a href="javascript:;" class="btn btn-success">预览</a>
+                    <a href="javascript:;" class="btn btn-link">我的草稿 (4)</a>       
+                </div>
+            </div>
+        </div>
+
+        <div class="notes-hader">
+            <div class="actions">
+                <a href="javascript:;" class="btn-choose">
+                    <span>设置游记头图</span>
+                    <span>图片建议选择尺寸大于1680px的高清大图，如相机原图</span>
+                </a>
+            </div>
+        </div>
+        
+        <div class="notes-body-actions">
+            <div class="inner-container">
+                <a href="javascript:;" class="btn btn-success">发表游记</a>
+            </div>
+        </div>
+        <div class="notes-body">
+            <div class="notes-title">
+                <input type="text" class="form-control" placeholder="输入标题" ng-model="notes.title">
+            </div>
+            
+            <dl class="module-create-bar">
+                <dt>
+                    <a href="javascript:;" class="btn-menu"></a>
+                </dt>
+                <dd>
+                    <a href="javascript:;" class="btn-section">添加段落标题</a>
+                </dd>
+                <dd>
+                    <a href="javascript:;" class="btn-text">添加文字</a>
+                </dd>
+                <dd>
+                    <a href="javascript:;" class="btn-picture">添加照片</a>
+                </dd>
+                <dd>
+                    <a href="javascript:;" class="btn-video">添加视频</a>
+                </dd>
+            </dl>
+
+            <ul class="notes-modules">
+                <li class="module-item {{ item.cate }}" ng-repeat="item in notes.modules">
+                    
+                    <div ng-if="item.cate  == 'section' " class="module-section {{ item.style }}">
+                        {{ item.title }}
+                    </div>
+
+                    <div ng-if="item.cate  == 'text' " class="module-text">
+                        <pre>{{ item.content }}</pre>
+                    </div>
+
+                    <div ng-if="item.cate  == 'picture' " class="module-picture">
+                        <div class="picture-item" ng-repeat="picture in item.list">
+                            <img ng-src="{{ picture.url }}" alt="">
+                        </div>
+                    </div>
+
+                    <div ng-if="item.cate  == 'video' " class="module-video">
+                        <div class="swf-object"></div>
+                        <swf-object
+                            swf-url="{{ item.url }}"
+                            swf-width="100%"
+                            swf-height="400px" >
+                        </swf-object>
+                    </div>
+
+
+                    <dl class="module-create-bar">
+                        <dt>
+                            <a href="javascript:;" class="btn-menu"></a>
+                        </dt>
+                        <dd>
+                            <a href="javascript:;" class="btn-section">添加段落标题</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" class="btn-text">添加文字</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" class="btn-picture">添加照片</a>
+                        </dd>
+                        <dd>
+                            <a href="javascript:;" class="btn-video">添加视频</a>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+
+
+            <div class="notes-actions">
+                <a href="javascript:;" class="btn btn-link pull-left">保存草稿</a>
+                <a href="javascript:;" class="btn btn-success pull-right">发表游记</a>     
+                <a href="javascript:;" class="btn btn-success pull-right">预览</a>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="scripts/travel-notes/angular.js"></script>
+<script src="scripts/travel-notes/angular-bootstrap.js"></script>
+<script src="scripts/travel-notes/angular-swfobject.js"></script>
+<script src="scripts/travel-notes/controllers.js"></script>
+</html>
