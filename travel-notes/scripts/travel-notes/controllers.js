@@ -2,7 +2,7 @@
 {
     var app = angular.module('travel-notes', ['ui.bootstrap', 'swfobject']);
 
-    app.controller('travel-notes', function($scope)
+    app.controller('travel-notes', function($scope, $uibModal)
     {
         $scope.name = 'test....'
 
@@ -49,7 +49,125 @@
                     'url': 'http://player.youku.com/player.php/sid/XMTU4NzgxNzUzMg==/v.swf'
                 },
             ]
+        };
+
+        $scope.addVideo = function( index )
+        {
+            var _modalAddVideo = $uibModal.open(
+            {
+                animation: true,
+                keyboard: true,
+                backdrop: 'static',
+                templateUrl: 'add-video.html',
+                controller: 'add-video',
+                size: '',
+                windowClass: 'add-video',
+                resolve:
+                {
+                }
+            });
+
+            _modalAddVideo.result.then(function ( data  ) 
+            {
+                $scope.notes.modules.splice(index,0, data);
+
+            }, function (){});
+        };
+
+        $scope.addSection = function( index )
+        {
+            var _modalAddSection = $uibModal.open(
+            {
+                animation: true,
+                keyboard: true,
+                backdrop: 'static',
+                templateUrl: 'add-section.html',
+                controller: 'add-section',
+                size: 'lg',
+                windowClass: 'add-section',
+                resolve:
+                {
+                }
+            });
+
+            _modalAddSection.result.then(function ( data  ) 
+            {
+                $scope.notes.modules.splice(index,0, data);
+
+            }, function (){});
         }
+    });
+
+    // 添加视频
+    app.controller('add-video', function ($scope, $uibModalInstance) 
+    {
+        $scope.data = 
+        {
+            cate: 'video',
+            url: 'http://player.youku.com/player.php/sid/XMTU4NzgxNzUzMg==/v.swf'
+        };
+        
+        $scope.confrim = function()
+        {
+            var _data = $scope.data;
+            if( !_data.url )
+            {
+                alert('请输入视频地址。');
+                return;
+            }
+
+
+            $uibModalInstance.close( _data );
+        };
+
+        $scope.cancel = function () 
+        {
+            $uibModalInstance.dismiss('cancel');
+        };
+    });
+
+    // 添加段落
+    app.controller('add-section', function ($scope, $uibModalInstance) 
+    {
+        $scope.sectionStyleList = 
+        [
+            {
+                'style': 'style-1'
+            },
+            {
+                'style': 'style-2'
+            }
+        ];
+
+        $scope.data = 
+        {
+            cate: 'section',
+            style: 'style-1',
+            title: '段落名称',
+        };
+
+        $scope.checkSection = function( item )
+        {
+            $scope.data.style = item.style;
+        };
+        
+        $scope.confrim = function()
+        {
+            var _data = $scope.data;
+            if( !_data.title )
+            {
+                alert('请输入段落名称。');
+                return;
+            }
+
+
+            $uibModalInstance.close( _data );
+        };
+
+        $scope.cancel = function () 
+        {
+            $uibModalInstance.dismiss('cancel');
+        };
     });
 
 })();
