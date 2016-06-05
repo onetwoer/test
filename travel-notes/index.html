@@ -31,14 +31,14 @@
             </div>
         </div>
 
-        <div class="notes-hader">
+        <!-- <div class="notes-hader">
             <div class="actions">
                 <a href="javascript:;" class="btn-choose">
                     <span>设置游记头图</span>
                     <span>图片建议选择尺寸大于1680px的高清大图，如相机原图</span>
                 </a>
             </div>
-        </div>
+        </div> -->
         
         <div class="notes-body-actions">
             <div class="inner-container">
@@ -50,33 +50,38 @@
                 <input type="text" class="form-control" placeholder="输入标题" ng-model="notes.title">
             </div>
             
-            <dl class="module-create-bar">
-                <dt>
-                    <a href="javascript:;" class="btn-menu"></a>
-                </dt>
-                <dd>
-                    <a ng-click="addSection(0);" class="btn-section">添加段落标题</a>
-                </dd>
-                <dd>
-                    <a href="javascript:;" class="btn-text">添加文字</a>
-                </dd>
-                <dd>
-                    <a href="javascript:;" class="btn-picture">添加照片</a>
-                </dd>
-                <dd>
-                    <a ng-click="addVideo(0)" class="btn-video">添加视频</a>
-                </dd>
-            </dl>
+            <div class="module-create-bar" ng-class="{ show: moduleMenu[0] === true }">
+                <a ng-click="showModuleMenu(0)" class="btn-menu"></a>
+                <dl class="menu-list">
+                    <dd>
+                        <a ng-click="addSection(0);" class="btn-section">添加段落标题</a>
+                    </dd>
+                    <dd>
+                        <a ng-click="addText(0)" class="btn-text">添加文字</a>
+                    </dd>
+                    <dd>
+                        <a href="javascript:;" class="btn-picture">添加照片</a>
+                    </dd>
+                    <dd>
+                        <a ng-click="addVideo(0)" class="btn-video">添加视频</a>
+                    </dd>
+                </dl>
+            </div>
 
             <ul class="notes-modules">
-                <li class="module-item {{ item.cate }}" ng-repeat="item in notes.modules">
-                    
+                <li class="module-item {{ item.cate }} module-item-{{$index}} " ng-repeat="item in notes.modules">
                     <div ng-if="item.cate  == 'section' " class="module-section {{ item.style }}">
                         {{ item.title }}
                     </div>
 
                     <div ng-if="item.cate  == 'text' " class="module-text">
-                        <pre>{{ item.content }}</pre>
+                        <pre ng-if=" item.editor != true " >{{ item.content }}</pre>
+                        <div ng-if=" item.editor == true "  class="editor-box">
+                            <textarea class="form-control" cols="30" rows="10" ng-model="item.content" placeholder="写点啥..." ng-trim></textarea>
+                            <div class="actions text-right">
+                                <a ng-click="confrimText( item );" class="btn btn-success btn-sm">确定</a>
+                            </div>
+                        </div>
                     </div>
 
                     <div ng-if="item.cate  == 'picture' " class="module-picture">
@@ -94,24 +99,28 @@
                         </swf-object>
                     </div>
 
+                    <div class="module-create-bar" ng-class="{ show: moduleMenu['{{ item.id }}'] === true }">
+                        <a ng-click="showModuleMenu(item.id)" class="btn-menu"></a>
+                        <dl class="menu-list" >
+                            <dd>
+                                <a ng-click="addSection($index + 1);" class="btn-section">添加段落标题</a>
+                            </dd>
+                            <dd>
+                                <a ng-click="addText($index + 1)" class="btn-text">添加文字</a>
+                            </dd>
+                            <dd>
+                                <a href="javascript:;" class="btn-picture">添加照片</a>
+                            </dd>
+                            <dd>
+                                <a ng-click="addVideo($index + 1)" class="btn-video">添加视频</a>
+                            </dd>
+                        </dl>
+                    </div>
 
-                    <dl class="module-create-bar">
-                        <dt>
-                            <a href="javascript:;" class="btn-menu"></a>
-                        </dt>
-                        <dd>
-                            <a ng-click="addSection($index + 1);" class="btn-section">添加段落标题</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" class="btn-text">添加文字</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" class="btn-picture">添加照片</a>
-                        </dd>
-                        <dd>
-                            <a ng-click="addVideo($index + 1)" class="btn-video">添加视频</a>
-                        </dd>
-                    </dl>
+                    <div ng-if=" item.editor != true && item.cate != 'picture' " class="module-actions">
+                        <a ng-click="editorModule(item, $index )">编辑</a>
+                        <a ng-click="deleteModule(item, $index )" >删除</a>
+                    </div>
                 </li>
             </ul>
 
@@ -171,7 +180,9 @@
                     <div class="col-lg-10">
                         <ul class="section-list">
                             <li class="item" ng-repeat=" item in sectionStyleList " ng-class="{ active: item.style == data.style }">
-                                <a ng-click="checkSection( item );" class="{{ item.style }}"></a>
+                                <a ng-click="checkSection( item );" class="{{ item.style }}">
+                                    <img ng-src="{{ item.img }}" alt="">
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -182,6 +193,22 @@
             <a ng-click="confrim();" class="btn btn-success">确定</a>
         </div>
     </script>
+
+
+    <!-- 删除提示 -->
+    <script type="text/ng-template" id="delete-module.html">
+        <div class="modal-header">
+            <h5 class="modal-title">提示：</h5>
+        </div>
+        <div class="modal-body">
+            <h4>确定删除提示？</h4>
+        </div>
+        <div class="modal-footer">
+            <a ng-click="cancel();" class="btn btn-default">取消</a>
+            <a ng-click="confrim();" class="btn btn-success">确定</a>
+        </div>
+    </script>
+    
 
 </body>
 <script src="scripts/travel-notes/angular.js"></script>
