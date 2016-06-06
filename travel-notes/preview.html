@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <title ng-bind="pageTitle">游记预览</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="misapplication-tap-highlight" content="no"/>
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="MobileOptimized" content="320"/>
+    <meta content="telephone=no" name="format-detection" />
+    <link rel="stylesheet" href="styles/travel-notes.css?@@vv">
+</head>
+<body ng-app="travel-notes">
+    <div ng-controller="travel-notes-preview"  class="travel-notes-preview-container">
+        
+        <div class="inner-container">
+            <div class="owner-info ng-cloak">
+                <img ng-src="{{ notes.owner.avatar }}" alt="" class="avatar">
+                <cite>{{ notes.title }}</cite>
+                <span>{{ notes.owner.name }} <b>{{ notes.owner.level }}</b></span>
+            </div>
+
+            <ul class="notes-modules ng-cloak">
+                <li class="module-item {{ item.cate }} module-item-{{$index}} " ng-repeat="item in notes.modules">
+                    <div ng-if="item.cate  == 'section' " class="module-section {{ item.style }}">
+                        {{ item.title }}
+                    </div>
+
+                    <div ng-if="item.cate  == 'text' " class="module-text">
+                        <pre ng-if=" item.editor != true " >{{ item.content }}</pre>
+                    </div>
+
+                    <div ng-if="item.cate  == 'picture' " class="module-picture">
+                        <div class="picture-item" ng-repeat="picture in item.list">
+                            <img ng-src="{{ picture.url }}" alt="">
+                        </div>
+                    </div>
+
+                    <div ng-if="item.cate  == 'video' " class="module-video">
+                        <div class="swf-object"></div>
+                        <swf-object
+                            swf-url="{{ item.url }}"
+                            swf-width="100%"
+                            swf-height="450px" >
+                        </swf-object>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="scripts/travel-notes/angular.js"></script>
+<script src="scripts/travel-notes/angular-bootstrap.js"></script>
+<script src="scripts/travel-notes/angular-swfobject.js"></script>
+<script src="scripts/travel-notes/controllers.js"></script>
+</html>
